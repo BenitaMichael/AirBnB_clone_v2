@@ -24,3 +24,10 @@ And as part of the implementation of the command line interpreter coupled with t
 
 ## How to start it
 These instructions will get you a copy of the project up and running on your local machine (Linux distro) for development and testing purposes.
+
+## Console.py
+### How it works
+- The program starts by importing the cmd module, which provides a framework for building interactive command-line applications.
+- This class is where you define the behavior of the command-line console and its inherits from cmd.Cmd.
+- The "(hbnb)" appears as the command prompt is executed, indicating that the console is ready to accept user input.
+- To exit the console, the user can either type "quit" or use Ctrl+D (EOF). In both cases, the program returns True, which signals the console to exit.
