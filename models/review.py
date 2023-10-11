@@ -5,7 +5,12 @@ from models.base_model import BaseModel
 
 
 class Review(BaseModel):
-    """Class for User review objects"""
+    """
+    Subclass for User review objects
+    place_id:  (string)
+    user_id:   (string)
+    text:      (string)
+    """
 
     place_id = ""
     user_id = ""

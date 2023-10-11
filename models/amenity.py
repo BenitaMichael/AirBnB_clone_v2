@@ -5,7 +5,11 @@ from models.base_model import BaseModel
 
 
 class Amenity(BaseModel):
-    """Class for User amenity objects"""
+    """
+    Subclass for User amenity objects
+    Public class attribute:
+    name: (string)
+    """
 
     name = ""
 

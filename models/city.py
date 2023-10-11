@@ -5,7 +5,12 @@ from models.base_model import BaseModel
 
 
 class City(BaseModel):
-    """Class for User city objects"""
+    """
+    Subclass for User city objects
+    Public class attributes:
+    state_id: (string)
+    name:(string)
+    """
 
     state_id = ""
     name = ""

@@ -5,6 +5,10 @@ from models.base_model import BaseModel
 
 
 class State(BaseModel):
-    """Class for User state objects"""
+    """
+    Subclass for User state objects
+        Public class attribute:
+        name: (string)
+    """
 
     name = ""
