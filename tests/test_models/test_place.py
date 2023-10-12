@@ -121,11 +121,11 @@ class TestPlace_instantiation(unittest.TestCase):
         pl = Place()
         pl.id = "123456"
         pl.created_at = pl.updated_at = dt
-        plstr = pl.__str__()
-        self.assertIn("[Place] (123456)", plstr)
-        self.assertIn("'id': '123456'", plstr)
-        self.assertIn("'created_at': " + dt_repr, plstr)
-        self.assertIn("'updated_at': " + dt_repr, plstr)
+        pl_str = pl.__str__()
+        self.assertIn("[Place] (123456)", pl_str)
+        self.assertIn("'id': '123456'", pl_str)
+        self.assertIn("'created_at': " + dt_repr, pl_str)
+        self.assertIn("'updated_at': " + dt_repr, pl_str)
 
     def test_args_unused(self):
         pl = Place(None)
@@ -190,9 +190,9 @@ class TestPlace_save(unittest.TestCase):
     def test_save_updates_file(self):
         pl = Place()
         pl.save()
-        plid = "Place." + pl.id
+        pl_id = "Place." + pl.id
         with open("file.json", "r") as f:
-            self.assertIn(plid, f.read())
+            self.assertIn(pl_id, f.read())
 
 
 class TestPlace_to_dict(unittest.TestCase):

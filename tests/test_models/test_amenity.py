@@ -61,11 +61,11 @@ class TestAmenity_instantiation(unittest.TestCase):
         am = Amenity()
         am.id = "123456"
         am.created_at = am.updated_at = dt
-        amstr = am.__str__()
-        self.assertIn("[Amenity] (123456)", amstr)
-        self.assertIn("'id': '123456'", amstr)
-        self.assertIn("'created_at': " + dt_repr, amstr)
-        self.assertIn("'updated_at': " + dt_repr, amstr)
+        am_str = am.__str__()
+        self.assertIn("[Amenity] (123456)", am_str)
+        self.assertIn("'id': '123456'", am_str)
+        self.assertIn("'created_at': " + dt_repr, am_str)
+        self.assertIn("'updated_at': " + dt_repr, am_str)
 
     def test_args_unused(self):
         am = Amenity(None)
@@ -131,9 +131,9 @@ class TestAmenity_save(unittest.TestCase):
     def test_save_updates_file(self):
         am = Amenity()
         am.save()
-        amid = "Amenity." + am.id
+        am_id = "Amenity." + am.id
         with open("file.json", "r") as f:
-            self.assertIn(amid, f.read())
+            self.assertIn(am_id, f.read())
 
 
 class TestAmenity_to_dict(unittest.TestCase):

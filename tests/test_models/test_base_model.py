@@ -55,11 +55,11 @@ class TestBaseModel_instantiation(unittest.TestCase):
         bm = BaseModel()
         bm.id = "123456"
         bm.created_at = bm.updated_at = dt
-        bmstr = bm.__str__()
-        self.assertIn("[BaseModel] (123456)", bmstr)
-        self.assertIn("'id': '123456'", bmstr)
-        self.assertIn("'created_at': " + dt_repr, bmstr)
-        self.assertIn("'updated_at': " + dt_repr, bmstr)
+        bm_str = bm.__str__()
+        self.assertIn("[BaseModel] (123456)", bm_str)
+        self.assertIn("'id': '123456'", bm_str)
+        self.assertIn("'created_at': " + dt_repr, bm_str)
+        self.assertIn("'updated_at': " + dt_repr, bm_str)
 
     def test_args_unused(self):
         bm = BaseModel(None)
@@ -133,9 +133,9 @@ class TestBaseModel_save(unittest.TestCase):
     def test_save_updates_file(self):
         bm = BaseModel()
         bm.save()
-        bmid = "BaseModel." + bm.id
+        bm_id = "BaseModel." + bm.id
         with open("file.json", "r") as f:
-            self.assertIn(bmid, f.read())
+            self.assertIn(bm_id, f.read())
 
 
 class TestBaseModel_to_dict(unittest.TestCase):

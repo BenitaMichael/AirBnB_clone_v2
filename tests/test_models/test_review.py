@@ -73,11 +73,11 @@ class TestReview_instantiation(unittest.TestCase):
         rv = Review()
         rv.id = "123456"
         rv.created_at = rv.updated_at = dt
-        rvstr = rv.__str__()
-        self.assertIn("[Review] (123456)", rvstr)
-        self.assertIn("'id': '123456'", rvstr)
-        self.assertIn("'created_at': " + dt_repr, rvstr)
-        self.assertIn("'updated_at': " + dt_repr, rvstr)
+        rv_str = rv.__str__()
+        self.assertIn("[Review] (123456)", rv_str)
+        self.assertIn("'id': '123456'", rv_str)
+        self.assertIn("'created_at': " + dt_repr, rv_str)
+        self.assertIn("'updated_at': " + dt_repr, rv_str)
 
     def test_args_unused(self):
         rv = Review(None)
@@ -142,9 +142,9 @@ class TestReview_save(unittest.TestCase):
     def test_save_updates_file(self):
         rv = Review()
         rv.save()
-        rvid = "Review." + rv.id
+        rv_id = "Review." + rv.id
         with open("file.json", "r") as f:
-            self.assertIn(rvid, f.read())
+            self.assertIn(rv_id, f.read())
 
 
 class TestReview_to_dict(unittest.TestCase):

@@ -61,11 +61,11 @@ class TestState_instantiation(unittest.TestCase):
         st = State()
         st.id = "123456"
         st.created_at = st.updated_at = dt
-        ststr = st.__str__()
-        self.assertIn("[State] (123456)", ststr)
-        self.assertIn("'id': '123456'", ststr)
-        self.assertIn("'created_at': " + dt_repr, ststr)
-        self.assertIn("'updated_at': " + dt_repr, ststr)
+        st_str = st.__str__()
+        self.assertIn("[State] (123456)", st_str)
+        self.assertIn("'id': '123456'", st_str)
+        self.assertIn("'created_at': " + dt_repr, st_str)
+        self.assertIn("'updated_at': " + dt_repr, st_str)
 
     def test_args_unused(self):
         st = State(None)
@@ -130,9 +130,9 @@ class TestState_save(unittest.TestCase):
     def test_save_updates_file(self):
         st = State()
         st.save()
-        stid = "State." + st.id
+        st_id = "State." + st.id
         with open("file.json", "r") as f:
-            self.assertIn(stid, f.read())
+            self.assertIn(st_id, f.read())
 
 
 class TestState_to_dict(unittest.TestCase):

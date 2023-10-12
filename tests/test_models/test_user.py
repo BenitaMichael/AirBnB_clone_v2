@@ -67,11 +67,11 @@ class TestUser_instantiation(unittest.TestCase):
         us = User()
         us.id = "123456"
         us.created_at = us.updated_at = dt
-        usstr = us.__str__()
-        self.assertIn("[User] (123456)", usstr)
-        self.assertIn("'id': '123456'", usstr)
-        self.assertIn("'created_at': " + dt_repr, usstr)
-        self.assertIn("'updated_at': " + dt_repr, usstr)
+        us_str = us.__str__()
+        self.assertIn("[User] (123456)", us_str)
+        self.assertIn("'id': '123456'", us_str)
+        self.assertIn("'created_at': " + dt_repr, us_str)
+        self.assertIn("'updated_at': " + dt_repr, us_str)
 
     def test_args_unused(self):
         us = User(None)
@@ -136,9 +136,9 @@ class TestUser_save(unittest.TestCase):
     def test_save_updates_file(self):
         us = User()
         us.save()
-        usid = "User." + us.id
+        us_id = "User." + us.id
         with open("file.json", "r") as f:
-            self.assertIn(usid, f.read())
+            self.assertIn(us_id, f.read())
 
 
 class TestUser_to_dict(unittest.TestCase):
