@@ -30,7 +30,7 @@ class TestBaseModel_instantiation(unittest.TestCase):
         self.assertEqual(datetime, type(BaseModel().updated_at))
 
     def test_new_instance_stored_in_objects(self):
-        self.assertIn(BaseModel(), models.storage.all().values())
+        self.assertIn(BaseModel(), models.dataStorage.all().values())
 
     def test_two_models_unique_ids(self):
         bm1 = BaseModel()
