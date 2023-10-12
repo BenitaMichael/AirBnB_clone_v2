@@ -2,7 +2,7 @@
 """Base Model (Parent class)"""
 
 import uuid
-from models import storage
+from models import database
 from datetime import datetime
 
 
@@ -34,7 +34,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
+            database.new(self)
 
     def __str__(self):
         """Returns string representation of instance, arguments, date and id"""
@@ -49,7 +49,7 @@ class BaseModel:
         """
 
         self.updated_at = datetime.now()
-        storage.save()
+        database.save()
 
     def to_dict(self):
         """
