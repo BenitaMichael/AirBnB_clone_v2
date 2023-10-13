@@ -92,7 +92,7 @@ class FileStorage:
             "Review":
             {"place_id": str,
                          "user_id": str,
-                         "text": str}
+                         "text": str},
 
             "State":
                      {"name": str},
