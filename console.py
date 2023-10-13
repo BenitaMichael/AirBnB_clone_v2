@@ -59,68 +59,68 @@ class HBNBCommand(cmd.Cmd):
   
 
     def do_show(self, arg):
-        """Print the string representation of an sample"""
+        """Print the string representation of an instance"""
         args = arg.split()
         if not args:
             print("** class name missing **")
         else:
             class_name = args[0]
             if len(args) < 2:
-                print("** sample id missing **")
+                print("** instance id missing **")
             else:
-                sample_id = args[1]
+                instance_id = args[1]
                 try:
-                    sample = BaseModel().get(class_name, sample_id)
-                    if sample:
-                        print(sample)
+                    instance = BaseModel().get(class_name, instance_id)
+                    if instance:
+                        print(instance)
                     else:
-                        print("** sample not found **")
+                        print("** no instance found **")
                 except NameError:
                     print("** class doesn't exist **")
     
     def do_destroy(self, arg):
-        """Delete an sample based on class name and id"""
+        """Delete an instance based on class name and id"""
         args = arg.split()
         if not args:
             print("** class name missing **")
         else:
             class_name = args[0]
             if len(args) < 2:
-                print("** sample id missing **")
+                print("** instance id missing **")
             else:
-                sample_id = args[1]
+                instance_id = args[1]
                 try:
-                    sample = BaseModel().get(class_name, sample_id)
-                    if sample:
-                        sample.delete()
+                    instance = BaseModel().get(class_name, instance_id)
+                    if instance:
+                        instance.delete()
                     else:
-                        print("** sample not found **")
+                        print("**  no instance found **")
                 except NameError:
                      print("** class doesn't exist **")
 
     def do_all(self, arg):
-        """Print string representation of all sample"""
+        """Print string representation of all instance"""
         args = arg.split()
         if not args:
-            print([str(samp) for samp in BaseModel().all()])
+            print([str(inst) for inst in BaseModel().all()])
         else:
             class_name = args[0]
             try:
-                print([str(samp) for samp in BaseModel().all(class_name)])
+                print([str(inst) for inst in BaseModel().all(class_name)])
             except NameError:
                 print("** class doesn't exist **")
 
     def do_update(self, arg):
-        """Update an samp based on class name and id"""
+        """Update an instance based on class name and id"""
         args = arg.split()
         if not args:
             print("** class name missing **")
         else:
             class_name = args[0]
             if len(args) < 2:
-                print("** sample id missing **")
+                print("** instance id missing **")
             else:
-                sample_id = args[1]
+                instance_id = args[1]
                 if len(args) < 3:
                     print("** attribute name missing **")
                 else:
@@ -128,30 +128,30 @@ class HBNBCommand(cmd.Cmd):
                         print("** value missing **")
                     else:
                          try:
-                            sample = BaseModel().get(class_name, sample_id)
-                            if sample:
+                            instance = BaseModel().get(class_name, instance_id)
+                            if instance:
                                 attribute_name = args[2]
                                 attribute_value = args[3]
                                 try:
                                     attribute_value = eval(attribute_value)
                                 except (NameError, SyntaxError):
                                     pass
-                                setattr(sample, attribute_name, attribute_value)
-                                sample.save()
+                                setattr(instance, attribute_name, attribute_value)
+                                instance.save()
                             else:
-                                print("** sample not found **")
+                                print("** no  instance found **")
                          except NameError:
                             print("** class doesn't exist **")
 
     def do_create(self, arg):
-        """Create a new sample of BaseModel"""
+        """Create a new instance of BaseModel"""
         if not arg:
             print("** class name missing **")
         else:
             try:
-                new_sample = eval(arg)()
-                new_sample.save()
-                print(new_sample.id)
+                new_instance = eval(arg)()
+                new_instance.save()
+                print(new_instance.id)
             except NameError:
                 print("** class doesn't exist **")  
 
