@@ -26,18 +26,18 @@ class FileStorage:
         """Returns the dictionary __objects: object instance"""
         return FileStorage.__objects
 
-    def do_new(self, obj):
+    def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
         key = "{}.{}".format(type(obj).__name__, obj.id)
         FileStorage.__objects[key] = obj
 
-    def do_save(self):
+    def save(self):
         """Converts __objects to the JSON file"""
         with open(FileStorage.__file_path, "w", encoding="utf-8") as f:
             d = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
             json.dump(d, f)
 
-    def do_reload(self):
+    def reload(self):
         """Reloads objects if exists and stored"""
         if not os.path.isfile(FileStorage.__file_path):
             return
@@ -95,7 +95,9 @@ class FileStorage:
                          "text": str}
 
             "State":
-                     {"name": str},
+                     {
+                         "name": str
+                     },
 
             "User":
                      {"email": str,
