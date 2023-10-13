@@ -95,9 +95,7 @@ class FileStorage:
                          "text": str}
 
             "State":
-                     {
-                         "name": str
-                     },
+                     {"name": str},
 
             "User":
                      {"email": str,
