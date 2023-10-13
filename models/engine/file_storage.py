@@ -22,22 +22,22 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-    def all(self):
+    def do_all(self):
         """Returns the dictionary __objects: object instance"""
         return FileStorage.__objects
 
-    def new(self, obj):
+    def do_new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
         key = "{}.{}".format(type(obj).__name__, obj.id)
         FileStorage.__objects[key] = obj
 
-    def save(self):
+    def do_save(self):
         """Converts __objects to the JSON file"""
         with open(FileStorage.__file_path, "w", encoding="utf-8") as f:
             d = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
             json.dump(d, f)
 
-    def reload(self):
+    def do_reload(self):
         """Reloads objects if exists and stored"""
         if not os.path.isfile(FileStorage.__file_path):
             return
