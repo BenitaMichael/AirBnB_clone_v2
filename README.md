@@ -29,14 +29,6 @@ And as part of the implementation of the command line interpreter coupled with t
 - The "(hbnb)" appears as the command prompt is executed, indicating that the console is ready to accept user input.
 - To exit the console, the user can either type "quit" or use Ctrl+D (EOF). In both cases, the program returns True, which signals the console to exit.
 
-
-
-
-##Overview of Console (Mr Kosiso)
-
-
-
-
 ## Overview Of Classes Created
 BaseModel: Parent class that defines all common attributes/methods for other classes. It handles Public attributes including:
 - id: created using uuid
@@ -94,4 +86,5 @@ Unittest can be found in test/test_models directory, Handling test cases for:
 - State
 - User
 - File storage (test/test_models/engine)
+.
 
