@@ -22,7 +22,7 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-    def do_all(self):
+    def all(self):
         """Returns the dictionary __objects: object instance"""
         return FileStorage.__objects
 
@@ -92,7 +92,7 @@ class FileStorage:
             "Review":
             {"place_id": str,
                          "user_id": str,
-                         "text": str}
+                         "text": str},
 
             "State":
                      {"name": str},
