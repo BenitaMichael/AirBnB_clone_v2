@@ -22,12 +22,76 @@ And as part of the implementation of the command line interpreter coupled with t
 -   Updating of an object
 -   Destroying an object
 
-## How to start it
-These instructions will get you a copy of the project up and running on your local machine (Linux distro) for development and testing purposes.
-
 ## Console.py
 ### How it works
 - The program starts by importing the cmd module, which provides a framework for building interactive command-line applications.
 - This class is where you define the behavior of the command-line console and its inherits from cmd.Cmd.
 - The "(hbnb)" appears as the command prompt is executed, indicating that the console is ready to accept user input.
 - To exit the console, the user can either type "quit" or use Ctrl+D (EOF). In both cases, the program returns True, which signals the console to exit.
+
+
+
+
+##Overview of Console (Mr Kosiso)
+
+
+
+
+## Overview Of Classes Created
+BaseModel: Parent class that defines all common attributes/methods for other classes. It handles Public attributes including:
+- id: created using uuid
+- created_at: using the date object
+- updated_at: using the date object
+and Public instance methods:
+- save(self): updates the public instance attribute updated_at with the current datetime
+to_dict(self): returns a dictionary containing all keys/values of __dict__ of the Public instance
+
+# User: Class that inherits from BaseModel. It handles Public Attributes including:
+- email: string object
+- password: string object
+- first_name: string object
+- last_name: string object
+
+# State Public class attributes:
+- name: string - empty string
+
+# City Public class attributes:
+state_id: string - empty string
+- name: string - empty string
+
+# Amenity Public class attributes:
+- name: string - empty string
+
+# Place Public class attributes:
+- city_id: string - empty string
+- user_id: string - empty string
+- name: string - empty string
+- description: string
+- number_rooms: integer - 0
+- number_bathrooms: integer - 0
+- max_guest: integer - 0
+- price_by_night: integer - 0
+- latitude: float - 0.0
+- longitude: float - 0.0
+- amenity_ids: list of string
+
+
+# Review Public class attributes:
+- place_id: string - empty string
+- user_id: string - empty string
+- text: string - empty string
+
+
+
+## Overview of Unittest
+Unit tests are essential for ensuring the correctness of code. Every possible edge cases have been covered by working with a wide range of students participating in this project.
+Unittest can be found in test/test_models directory, Handling test cases for:
+- BaseModel
+- Amenity
+- City
+- Place
+- Review
+- State
+- User
+- File storage (test/test_models/engine)
+
