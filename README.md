@@ -50,7 +50,7 @@ user@ubuntu:~/AirBnB$ ./console.py
 ```
 
 or
-
+o
 ```
 user@ubuntu:~/AirBnB$ ./console.py $ echo "create BaseModel" | ./console.py
 (hbnb)
