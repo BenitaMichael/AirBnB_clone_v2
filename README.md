@@ -58,6 +58,7 @@ user@ubuntu:~/AirBnB$ ./console.py $ echo "create BaseModel" | ./console.py
 e37ebcd3-f8e1-4c1f-8095-7a019070b1fa
 (hbnb)
 user@ubuntu:~/AirBnB$ ./console.py
+```
 
 ### Recognized Commands
 - do_show (read all Users)
