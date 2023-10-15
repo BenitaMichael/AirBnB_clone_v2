@@ -3,7 +3,6 @@
 
 import os
 import json
-import datetime
 
 
 class FileStorage:
@@ -37,18 +36,8 @@ class FileStorage:
             d = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
             json.dump(d, f)
 
-    def reload(self):
-        """Reloads objects if exists and stored"""
-        if not os.path.isfile(FileStorage.__file_path):
-            return
-        with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
-            obj_dict = json.load(f)
-            obj_dict = {key: self.classes()[value["__class__"]](**value)
-                        for key, value in obj_dict.items()}
-            FileStorage.__objects = obj_dict
-
     def classes(self):
-        """Returns classes and their refs"""
+        """Returns classes and their respective refs"""
         from models.base_model import BaseModel
         from models.amenity import Amenity
         from models.city import City
@@ -61,46 +50,12 @@ class FileStorage:
                    "Place": Place, "Review": Review, "State": State, "User": User}
         return classes
 
-    def attributes(self):
-        """Returns the attributes"""
-        attributes = {
-            "BaseModel":
-                     {"id": str,
-                      "created_at": datetime.datetime,
-                      "updated_at": datetime.datetime},
-
-            "Amenity":
-                     {"name": str},
-
-            "City":
-                     {"state_id": str,
-                      "name": str},
-
-            "Place":
-                     {"city_id": str,
-                      "user_id": str,
-                      "name": str,
-                      "description": str,
-                      "number_rooms": int,
-                      "number_bathrooms": int,
-                      "max_guest": int,
-                      "price_by_night": int,
-                      "latitude": float,
-                      "longitude": float,
-                      "amenity_ids": list},
-
-            "Review":
-            {"place_id": str,
-                         "user_id": str,
-                         "text": str},
-
-            "State":
-                     {"name": str},
-
-            "User":
-                     {"email": str,
-                      "password": str,
-                      "first_name": str,
-                      "last_name": str},
-        }
-        return attributes
+    def reload(self):
+        """Reloads objects if exists and stored"""
+        if not os.path.isfile(FileStorage.__file_path):
+            return
+        with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
+            obj_dict = json.load(f)
+            obj_dict = {key: self.classes()[value["__class__"]](**value)
+                        for key, value in obj_dict.items()}
+            FileStorage.__objects = obj_dict
