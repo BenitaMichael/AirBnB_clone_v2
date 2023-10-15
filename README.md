@@ -49,7 +49,7 @@ user@ubuntu:~/AirBnB$ ./console.py
 user@ubuntu:~/AirBnB$ ./console.py
 
 ```
-andor
+or
 
 ```
 user@ubuntu:~/AirBnB$ ./console.py $ echo "create BaseModel" | ./console.py
