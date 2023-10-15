@@ -32,6 +32,14 @@ class TestBaseModel_instantiation(unittest.TestCase):
     def test_new_instance_stored_in_objects(self):
         self.assertIn(BaseModel(), models.dataStorage.all().values())
 
+    def test_instantiation_with_args_and_kwargs(self):
+        dt = datetime.today()
+        dt_iso = dt.isoformat()
+        bm = BaseModel("12", id="345", created_at=dt_iso, updated_at=dt_iso)
+        self.assertEqual(bm.id, "345")
+        self.assertEqual(bm.created_at, dt)
+        self.assertEqual(bm.updated_at, dt)
+
     def test_two_models_unique_ids(self):
         bm1 = BaseModel()
         bm2 = BaseModel()
@@ -65,22 +73,14 @@ class TestBaseModel_instantiation(unittest.TestCase):
         bm = BaseModel(None)
         self.assertNotIn(None, bm.__dict__.values())
 
-    def test_instantiation_with_kwargs(self):
-        dt = datetime.today()
-        dt_iso = dt.isoformat()
-        bm = BaseModel(id="345", created_at=dt_iso, updated_at=dt_iso)
-        self.assertEqual(bm.id, "345")
-        self.assertEqual(bm.created_at, dt)
-        self.assertEqual(bm.updated_at, dt)
-
     def test_instantiation_with_None_kwargs(self):
         with self.assertRaises(TypeError):
             BaseModel(id=None, created_at=None, updated_at=None)
 
-    def test_instantiation_with_args_and_kwargs(self):
+    def test_instantiation_with_kwargs(self):
         dt = datetime.today()
         dt_iso = dt.isoformat()
-        bm = BaseModel("12", id="345", created_at=dt_iso, updated_at=dt_iso)
+        bm = BaseModel(id="345", created_at=dt_iso, updated_at=dt_iso)
         self.assertEqual(bm.id, "345")
         self.assertEqual(bm.created_at, dt)
         self.assertEqual(bm.updated_at, dt)
@@ -106,6 +106,10 @@ class TestBaseModel_save(unittest.TestCase):
             os.rename("tmp", "file.json")
         except IOError:
             pass
+    def test_save_with_arg(self):
+        bm = BaseModel()
+        with self.assertRaises(TypeError):
+            bm.save(None)
 
     def test_one_save(self):
         bm = BaseModel()
@@ -125,10 +129,6 @@ class TestBaseModel_save(unittest.TestCase):
         bm.save()
         self.assertLess(second_updated_at, bm.updated_at)
 
-    def test_save_with_arg(self):
-        bm = BaseModel()
-        with self.assertRaises(TypeError):
-            bm.save(None)
 
     def test_save_updates_file(self):
         bm = BaseModel()
@@ -140,6 +140,10 @@ class TestBaseModel_save(unittest.TestCase):
 
 class TestBaseModel_to_dict(unittest.TestCase):
     """Unittests for testing to_dict method of the BaseModel class."""
+    def test_to_dict_with_arg(self):
+        bm = BaseModel()
+        with self.assertRaises(TypeError):
+            bm.to_dict(None)
 
     def test_to_dict_type(self):
         bm = BaseModel()
@@ -182,12 +186,7 @@ class TestBaseModel_to_dict(unittest.TestCase):
         bm = BaseModel()
         self.assertNotEqual(bm.to_dict(), bm.__dict__)
 
-    def test_to_dict_with_arg(self):
-        bm = BaseModel()
-        with self.assertRaises(TypeError):
-            bm.to_dict(None)
 
 
 if __name__ == "__main__":
     unittest.main()
-
