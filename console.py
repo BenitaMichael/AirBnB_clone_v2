@@ -18,15 +18,17 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
 
-    __classes = {
-        "BaseModel",
-        "Amenity",
-        "City",
-        "Place",
-        "Review",
-        "State",
-        "User"
-    }
+    def __init__(self):
+        super().__init__()
+        self.classes = {
+            "BaseModel"
+            "Place"
+            "State"
+            "City"
+            "Amenity"
+            "Review"
+            "User"
+        }
 
     class FileStorage:
         __objects = {
