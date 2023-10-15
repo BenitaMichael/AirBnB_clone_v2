@@ -77,6 +77,10 @@ class TestCity_instantiation(unittest.TestCase):
         ct = City(None)
         self.assertNotIn(None, ct.__dict__.values())
 
+    def test_instantiation_with_None_kwargs(self):
+        with self.assertRaises(TypeError):
+            City(id=None, created_at=None, updated_at=None)
+
     def test_instantiation_with_kwargs(self):
         dt = datetime.today()
         dt_iso = dt.isoformat()
@@ -84,10 +88,6 @@ class TestCity_instantiation(unittest.TestCase):
         self.assertEqual(ct.id, "345")
         self.assertEqual(ct.created_at, dt)
         self.assertEqual(ct.updated_at, dt)
-
-    def test_instantiation_with_None_kwargs(self):
-        with self.assertRaises(TypeError):
-            City(id=None, created_at=None, updated_at=None)
 
 
 class TestCity_save(unittest.TestCase):
@@ -109,6 +109,10 @@ class TestCity_save(unittest.TestCase):
             os.rename("tmp", "file.json")
         except IOError:
             pass
+    def test_save_with_arg(self):
+        ct = City()
+        with self.assertRaises(TypeError):
+            ct.save(None)
 
     def test_one_save(self):
         ct = City()
@@ -127,11 +131,6 @@ class TestCity_save(unittest.TestCase):
         sleep(0.05)
         ct.save()
         self.assertLess(second_updated_at, ct.updated_at)
-
-    def test_save_with_arg(self):
-        ct = City()
-        with self.assertRaises(TypeError):
-            ct.save(None)
 
     def test_save_updates_file(self):
         ct = City()

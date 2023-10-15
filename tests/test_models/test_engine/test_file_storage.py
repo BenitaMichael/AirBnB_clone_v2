@@ -108,16 +108,16 @@ class TestFileStorage_methods(unittest.TestCase):
 
     def test_save(self):
         bm = BaseModel()
-        us = User()
+        usr = User()
         st = State()
-        pl = Place()
+        plc = Place()
         ct = City()
         am = Amenity()
         rv = Review()
         models.dataStorage.new(bm)
-        models.dataStorage.new(us)
+        models.dataStorage.new(usr)
         models.dataStorage.new(st)
-        models.dataStorage.new(pl)
+        models.dataStorage.new(plc)
         models.dataStorage.new(ct)
         models.dataStorage.new(am)
         models.dataStorage.new(rv)
@@ -126,9 +126,9 @@ class TestFileStorage_methods(unittest.TestCase):
         with open("file.json", "r") as f:
             save_text = f.read()
             self.assertIn("BaseModel." + bm.id, save_text)
-            self.assertIn("User." + us.id, save_text)
+            self.assertIn("User." + usr.id, save_text)
             self.assertIn("State." + st.id, save_text)
-            self.assertIn("Place." + pl.id, save_text)
+            self.assertIn("Place." + plc.id, save_text)
             self.assertIn("City." + ct.id, save_text)
             self.assertIn("Amenity." + am.id, save_text)
             self.assertIn("Review." + rv.id, save_text)
@@ -139,16 +139,16 @@ class TestFileStorage_methods(unittest.TestCase):
 
     def test_reload(self):
         bm = BaseModel()
-        us = User()
+        usr = User()
         st = State()
-        pl = Place()
+        plc = Place()
         ct = City()
         am = Amenity()
         rv = Review()
         models.dataStorage.new(bm)
-        models.dataStorage.new(us)
+        models.dataStorage.new(usr)
         models.dataStorage.new(st)
-        models.dataStorage.new(pl)
+        models.dataStorage.new(plc)
         models.dataStorage.new(ct)
         models.dataStorage.new(am)
         models.dataStorage.new(rv)
@@ -156,9 +156,9 @@ class TestFileStorage_methods(unittest.TestCase):
         models.dataStorage.reload()
         objs = FileStorage._FileStorage__objects
         self.assertIn("BaseModel." + bm.id, objs)
-        self.assertIn("User." + us.id, objs)
+        self.assertIn("User." + usr.id, objs)
         self.assertIn("State." + st.id, objs)
-        self.assertIn("Place." + pl.id, objs)
+        self.assertIn("Place." + plc.id, objs)
         self.assertIn("City." + ct.id, objs)
         self.assertIn("Amenity." + am.id, objs)
         self.assertIn("Review." + rv.id, objs)
@@ -170,4 +170,3 @@ class TestFileStorage_methods(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

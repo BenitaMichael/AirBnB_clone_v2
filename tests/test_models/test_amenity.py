@@ -71,6 +71,10 @@ class TestAmenity_instantiation(unittest.TestCase):
         am = Amenity(None)
         self.assertNotIn(None, am.__dict__.values())
 
+    def test_instantiation_with_None_kwargs(self):
+        with self.assertRaises(TypeError):
+            Amenity(id=None, created_at=None, updated_at=None)
+
     def test_instantiation_with_kwargs(self):
         """Using kwargs test method"""
         dt = datetime.today()
@@ -79,10 +83,6 @@ class TestAmenity_instantiation(unittest.TestCase):
         self.assertEqual(am.id, "345")
         self.assertEqual(am.created_at, dt)
         self.assertEqual(am.updated_at, dt)
-
-    def test_instantiation_with_None_kwargs(self):
-        with self.assertRaises(TypeError):
-            Amenity(id=None, created_at=None, updated_at=None)
 
 
 class TestAmenity_save(unittest.TestCase):
@@ -104,6 +104,10 @@ class TestAmenity_save(unittest.TestCase):
             os.rename("tmp", "file.json")
         except IOError:
             pass
+    def test_save_with_arg(self):
+        am = Amenity()
+        with self.assertRaises(TypeError):
+            am.save(None)
 
     def test_one_save(self):
         am = Amenity()
@@ -122,11 +126,6 @@ class TestAmenity_save(unittest.TestCase):
         sleep(0.05)
         am.save()
         self.assertLess(second_updated_at, am.updated_at)
-
-    def test_save_with_arg(self):
-        am = Amenity()
-        with self.assertRaises(TypeError):
-            am.save(None)
 
     def test_save_updates_file(self):
         am = Amenity()

@@ -71,6 +71,10 @@ class TestState_instantiation(unittest.TestCase):
         st = State(None)
         self.assertNotIn(None, st.__dict__.values())
 
+    def test_instantiation_with_None_kwargs(self):
+        with self.assertRaises(TypeError):
+            State(id=None, created_at=None, updated_at=None)
+
     def test_instantiation_with_kwargs(self):
         dt = datetime.today()
         dt_iso = dt.isoformat()
@@ -78,10 +82,6 @@ class TestState_instantiation(unittest.TestCase):
         self.assertEqual(st.id, "345")
         self.assertEqual(st.created_at, dt)
         self.assertEqual(st.updated_at, dt)
-
-    def test_instantiation_with_None_kwargs(self):
-        with self.assertRaises(TypeError):
-            State(id=None, created_at=None, updated_at=None)
 
 
 class TestState_save(unittest.TestCase):
@@ -103,6 +103,10 @@ class TestState_save(unittest.TestCase):
             os.rename("tmp", "file.json")
         except IOError:
             pass
+    def test_save_with_arg(self):
+        st = State()
+        with self.assertRaises(TypeError):
+            st.save(None)
 
     def test_one_save(self):
         st = State()
@@ -121,11 +125,6 @@ class TestState_save(unittest.TestCase):
         sleep(0.05)
         st.save()
         self.assertLess(second_updated_at, st.updated_at)
-
-    def test_save_with_arg(self):
-        st = State()
-        with self.assertRaises(TypeError):
-            st.save(None)
 
     def test_save_updates_file(self):
         st = State()
