@@ -13,21 +13,6 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
-def find_models(args):
-    data = file_storage.all()
-    data_list = []
-    arg_list = split_arg(args)
-    classes = {
-        "BaseModel",
-        "Amenity",
-        "City",
-        "Place",
-        "Review",
-        "State",
-        "User"
-    }
-
-
 class HBNBCommand(cmd.Cmd):
     """The command prompt class - HBNBCommand"""
 
@@ -72,74 +57,58 @@ class HBNBCommand(cmd.Cmd):
         self.save()
 
 
-
-    def find_models(args):
-        data = file_storage.all()
-        data_list = []
-        arg_list = split_arg(args)
-        __classes = {
-        "BaseModel",
-        "Amenity",
-        "City",
-        "Place",
-        "Review",
-        "State",
-        "User"
-    }
-  
-
     def do_show(self, arg):
         """Print the string representation of an instance"""
         args = arg.split()
-        if not args:
+        if not arg:
             print("** class name missing **")
+        elif args[0] not in self.classes:
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
         else:
-            class_name = args[0]
-            if len(args) < 2:
-                print("** instance id missing **")
+            objects = file_storage.all()
+            key = "{}.{}".format(args[0], args[1])
+            if key in objects:
+                print(objects[key])
             else:
-                objects = file_storage.all()
-                key = "{}.{}".format(args[0], args[1])
-                if key in file_storage.all:
-                    print(file_storage.all[key])
-                else:
-                    print("** no instance found **")
-                if args[0] not in []:
-                    print("** class doesn't exist **")
+                print("** no instance found **")
     
     def do_destroy(self, arg):
         """Delete an instance based on class name and id"""
         """ Usage: Destory <class_name> <id> """
         args = arg.split()
-        if not args:
+        if not arg:
             print("** class name missing **")
-        elif args[0] not in HBNBCommand.__classes:
+        elif args[0] not in self.classes:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
         else:
+            objects = file_storage.all()
             key = "{}.{}".format(args[0], args[1])
-            if key in file_storage.all():
-                file_storage.all().pop(key)
+            if key in objects:
+                del objects[key]
                 file_storage.save()
             else:
                 print("** no instance found **")
 
+
     def do_all(self, arg):
         """Print string representation of all instance"""
+        """Print all instances or all instances of a specific class"""
+        args = arg.split()
         if not arg:
-            obj_list = []
-            for key, value in file_storage.all().items():
-                obj_list.append(str(value))
-            print(obj_list)
-        elif arg in HBNBCommand.__classes:
-            obj_list = []
-            for key, value in file_storage.all().items():
-                if arg in key:
-                    obj_list.append(str(value))
-            print(obj_list)
-        else:
+            print([str(obj) for obj in file_storage.all().values()])
+        elif args[0] not in self.classes:
             print("** class doesn't exist **")
+        else:
+            class_name = args[0]
+            instances = file_storage.all()[class_name]
+            if instances:
+                print([str(obj) for obj in instances.values()])
+            else:
+                print("No instances found for class: {}".format(class_name))
 
     def do_update(self, arg):
         """Update an instance based on class name and id"""
@@ -147,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return False
-        elif  arg_list[0] not in HBNBCommand.__classes:
+        elif  arg_list[0] not in self.classes:
             print("** class doesn't exist **")
             return False
         elif len(arg) < 2:
@@ -170,15 +139,16 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_count(self, arg):
-        """ Retrieves the number of instances of a class. """
-        """ Usage: <class_name>.count()"""
+        """Count the number of instances for a specific class"""
         args = arg.split()
-        if not args:
+        if not arg:
             print("** class name missing **")
-        elif args[0] not in HBNBCommand.__classes:
+        elif args[0] not in self.classes:
             print("** class doesn't exist **")
         else:
-            count = sum(1 for key in file_storage.all() if args[0] in key)
+            class_name = args[0]
+            instances = file_storage.all(class_name)
+            count = len(instances)
             print(count)
 
     def do_create(self, arg):
@@ -186,13 +156,12 @@ class HBNBCommand(cmd.Cmd):
         """ And save to the JSON file """
         if not arg:
             print("** class name missing **")
+        elif arg not in self.classes:
+            print("** class doesn't exist **")
         else:
-            try:
-                new_instance = eval(arg)()
-                new_instance.save()
-                print(new_instance.id)
-            except NameError:
-                print("** class doesn't exist **")  
+            new_instance = self.classes[arg]()
+            new_instance.save()
+            print(new_instance.id)
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
