@@ -18,6 +18,18 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
 
+    def __init__(self):
+        super().__init__()
+        self.classes = {
+            "BaseModel"
+            "Place"
+            "State"
+            "City"
+            "Amenity"
+            "Review"
+            "User"
+        }
+
     __classes = {
         "BaseModel",
         "Amenity",
