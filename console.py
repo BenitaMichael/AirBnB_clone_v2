@@ -30,16 +30,6 @@ class HBNBCommand(cmd.Cmd):
             "User"
         }
 
-    __classes = {
-        "BaseModel",
-        "Amenity",
-        "City",
-        "Place",
-        "Review",
-        "State",
-        "User"
-    }
-
     class FileStorage:
         __objects = {
         "BaseModel",
