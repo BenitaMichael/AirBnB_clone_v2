@@ -13,6 +13,33 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
+def find_models(args):
+    data = storage.all()
+    data_list = []
+    arg_list = split_arg(args)
+    classes = {
+        "BaseModel",
+        "User",
+        "State",
+        "City",
+        "Place",
+        "Amenity",
+        "Review"
+    }
+
+    if len(args) == 0:
+        for value in data.values():
+            data_list.append(str(value))
+    elif arg_list[0] not in classes:
+        print("** class doesn't exist **")
+        return
+    else:
+        for value in data.values():
+            if value.__class__.__name__ == arg_list[0]:
+                data_list.append(str(value))
+    return data_list
+
+
 class HBNBCommand(cmd.Cmd):
     """The command prompt class - HBNBCommand"""
 
@@ -138,18 +165,14 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-    def do_count(self, arg):
-        """Count the number of instances for a specific class"""
-        args = arg.split()
-        if not arg:
-            print("** class name missing **")
-        elif args[0] not in self.classes:
-            print("** class doesn't exist **")
-        else:
-            class_name = args[0]
-            instances = file_storage.all(class_name)
-            count = len(instances)
-            print(count)
+     def do_count(self, args):
+        """Usage: count <className> or <className>.count()
+        retrieves the number of instances of a class
+        """
+        data_list = find_models(args)
+        if data_list is not None:
+            print(len(data_list))
+
 
     def do_create(self, arg):
         """Create a new instance of BaseModel"""
@@ -175,6 +198,27 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """Do nothing on an empty line"""
         pass
+    
+     def default(self, arg):
+        """Default behavior for cmd module when input is invalid"""
+        argdict = {
+            "all": self.do_all,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "count": self.do_count,
+            "update": self.do_update
+        }
+        match = re.search(r"\.", arg)
+        if match is not None:
+            argl = [arg[:match.span()[0]], arg[match.span()[1]:]]
+            match = re.search(r"\((.*?)\)", argl[1])
+            if match is not None:
+                command = [argl[1][:match.span()[0]], match.group()[1:-1]]
+                if command[0] in argdict.keys():
+                    call = "{} {}".format(argl[0], command[1])
+                    return argdict[command[0]](call)
+        print("*** Unknown syntax: {}".format(arg))
+        return False
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
