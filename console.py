@@ -165,7 +165,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-     def do_count(self, args):
+    def do_count(self, arg):
         """Usage: count <className> or <className>.count()
         retrieves the number of instances of a class
         """
@@ -199,7 +199,7 @@ class HBNBCommand(cmd.Cmd):
         """Do nothing on an empty line"""
         pass
     
-     def default(self, arg):
+    def default(self, arg):
         """Default behavior for cmd module when input is invalid"""
         argdict = {
             "all": self.do_all,
