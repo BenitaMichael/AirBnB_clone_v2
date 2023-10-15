@@ -42,7 +42,6 @@ In non-interactive mode, the console will need to be run with a command input pi
 #### Example:
 
 ```
-
 user@ubuntu:~/AirBnB$ ./console.py
 (hbnb) create BaseModel
 49faff9a-6318-451f-87b6-910505c55907
