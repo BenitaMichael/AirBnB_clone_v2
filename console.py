@@ -13,6 +13,47 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
+class FileStorage:
+    __file_path = "file.json"
+    __objects = {
+            "BaseModel"
+            "Place"
+            "State"
+            "City"
+            "Amenity"
+            "Review"
+            "User"
+            }
+
+
+    def all(self):
+        """Return the dictionary __objects."""
+        return FileStorage.__objects
+
+    def new(self, obj):
+        """Set in __objects the obj with key <obj class name>.id"""
+        key = "{}.{}".format(obj.__class__.____name__, obj.id)
+        FileStorage.__objects[key] = obj
+
+    def save(self):
+        """Serializes __objects to the JSON file (path: __file_path)"""
+        serialized = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
+        with open(FileStorage.__file_path, 'w', encoding='utf-8') as file:
+            json.dump(serialized, file)
+
+    def reload(self):
+        """Deserializes the JSON file to __objects"""
+        try:
+            with open(FileStorage.__file_path, 'r', encoding='utf-8') as file:
+                serialized = json.load(file)
+                for key, value in serialized.items():
+                    class_name = value['__class__']
+                    obj = eval(class_name)(**value)
+                    FileStorage.__objects[key] = obj
+        except FileNotFoundError:
+            pass
+
+
 class HBNBCommand(cmd.Cmd):
     """The command prompt class - HBNBCommand"""
 
@@ -32,141 +73,17 @@ class HBNBCommand(cmd.Cmd):
 
     class FileStorage:
         __objects = {
-        "BaseModel",
-        "Amenity",
-        "City",
-        "Place",
-        "Review",
-        "State",
-        "User"
-    }
+                "BaseModel"
+            "Place"
+            "State"
+            "City"
+            "Amenity"
+            "Review"
+            "User"
+            }
 
-    def all(self, cs=None):
-        """ Return a dictionary of objects """
-        """ Classes defined as objects """
-        if cs is not None:
-           if isinstance(cs, str):
-            cs = self.__objects.get(cs, None)
-        if cs is not None:
-            return {k: v for k, v in self.__objects.items() if isinstance(v, cs)}
-        return self.__objects
-
-    def new(self, obj):
-        """Add an object to the current database session """
-        """ Classes defined as object """
-        key = "{}.{}".format(obj.__class__.__name__, obj.id)
-        self.__objects[key] = obj
-        self.save()
-
-
-    def do_show(self, arg):
-        """Print the string representation of an instance"""
-        args = arg.split()
-        if not arg:
-            print("** class name missing **")
-        elif args[0] not in self.classes:
-            print("** class doesn't exist **")
-        elif len(args) < 2:
-            print("** instance id missing **")
-        else:
-            objects = file_storage.all()
-            key = "{}.{}".format(args[0], args[1])
-            if key in objects:
-                print(objects[key])
-            else:
-                print("** no instance found **")
-    
-    def do_destroy(self, arg):
-        """Delete an instance based on class name and id"""
-        """ Usage: Destory <class_name> <id> """
-        args = arg.split()
-        if not arg:
-            print("** class name missing **")
-        elif args[0] not in self.classes:
-            print("** class doesn't exist **")
-        elif len(args) < 2:
-            print("** instance id missing **")
-        else:
-            objects = file_storage.all()
-            key = "{}.{}".format(args[0], args[1])
-            if key in objects:
-                del objects[key]
-                file_storage.save()
-            else:
-                print("** no instance found **")
-
-
-    def do_all(self, arg):
-        """Print string representation of all instance"""
-        """Print all instances or all instances of a specific class"""
-        args = arg.split()
-        if not arg:
-            print([str(obj) for obj in file_storage.all().values()])
-        elif args[0] not in self.classes:
-            print("** class doesn't exist **")
-        else:
-            class_name = args[0]
-            instances = file_storage.all()[class_name]
-            if instances:
-                print([str(obj) for obj in instances.values()])
-            else:
-                print("No instances found for class: {}".format(class_name))
-
-    def do_update(self, arg):
-        """Update an instance based on class name and id"""
-        args = arg.split()
-        if not args:
-            print("** class name missing **")
-            return False
-        elif  arg_list[0] not in self.classes:
-            print("** class doesn't exist **")
-            return False
-        elif len(arg) < 2:
-            print("** instance id missing **")
-            return False
-        else:
-            key = "{}.{}".format(args[0], args[1])
-            if key in file_storage.all():
-                if len(args) < 3:
-                    print("** attribute name missing **")
-                elif len(args) < 4:
-                    print("** value missing **")
-                else:
-                    attribute_name = args[2]
-                    attribute_value = args[3]
-                    obj = file_storage.all()[key]
-                    setattr(obj, attr_name, attr_value)
-                    obj.save()
-            else:
-                print("** no instance found **")
-
-    def do_count(self, arg):
-        """Usage: count <className> or <className>.count()
-        retrieves the number of instances of a class
-        """
-        """Count the number of instances for a specific class"""
-        args = arg.split()
-        if not arg:
-            print("** class name missing **")
-        elif args[0] not in self.classes:
-            print("** class doesn't exist **")
-        else:
-            class_name = args[0]
-            instances = file_storage.all(class_name)
-            count = len(instances)
-            print(count)
-
-    def do_create(self, arg):
-        """Create a new instance of BaseModel"""
-        """ And save to the JSON file """
-        if not arg:
-            print("** class name missing **")
-        elif arg not in self.classes:
-            print("** class doesn't exist **")
-        else:
-            new_instance = self.classes[arg]()
-            new_instance.save()
-            print(new_instance.id)
+        def all(self):
+            return self.__objects
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
@@ -181,5 +98,90 @@ class HBNBCommand(cmd.Cmd):
         """Do nothing on an empty line"""
         pass
 
+
+    def do_update(self, arg):
+        """Update an instance based on class name and id with a new attribute value"""
+        args = arg.split()
+        objects = file_storage.all()
+        if not args:
+            print("** class name missing **")
+        elif args[0] not in ["BaseModel"]:
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        elif len(args) < 3:
+            print("** attribute name missing **")
+        elif len(args) < 4:
+            print("** value missing **")
+        else:
+            key = "{}.{}".format(args[0], args[1])
+            if key in objects:
+                obj = objects[key]
+                setattr(obj, args[2], args[3].strip('"'))
+                obj.save()
+            else:
+                print("** no instance found **")
+
+    def do_all(self, arg):
+        """Print string representation of all instances or based on class name"""
+        args = arg.split()
+        objects = file_storage.all()
+        if not args:
+            print([str(objects[obj]) for obj in objects])
+        elif args[0] not in ["BaseModel"]:
+            print("** class doesn't exist **")
+        else:
+            filtered_objects = {obj: objects[obj] for obj in objects if obj.startswith(args[0] + ".")}
+            print([str(filtered_objects[obj]) for obj in filtered_objects])
+
+
+    def do_destroy(self, arg):
+        """Delete an instance based on the class name and id"""
+        args = arg.split()
+        if not args:
+            print("** class name missing **")
+        elif args[0] not in ["BaseModel"]:
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        else:
+            objects = file_storage.all()
+            key = "{}.{}".format(args[0], args[1])
+            if key in objects:
+                del objects[key]
+                file_storage.save()
+            else:
+                print("** no instance found **")
+
+    def do_show(self, arg):
+        """Print the string representation of an instance based on class name and id"""
+        args = arg.split()
+        if not args:
+            print("** class name missing **")
+        elif args[0] not in ["BaseModel"]:
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        else:
+            objects = file_storage.all()
+            key = "{}.{}".format(args[0], args[1])
+            if key in objects:
+                print(objects[key])
+            else:
+                print("** no instance found **")
+
+    def do_create(self, arg):
+        """Create a new instance of BaseModel and save it to the JSON file"""
+        if not arg:
+            print("** class name missing **")
+        elif arg not in ["BaseModel"]:
+            print("** class doesn't exist **")
+        else:
+            new_instance = BaseModel()
+            new_instance.save()
+            print(new_instance.id)
+
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
+
