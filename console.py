@@ -30,9 +30,7 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
 
-    def __init__(self):
-        super().__init__()
-        self.classes = {
+        __classes = {
             "BaseModel"
             "Place"
             "State"
@@ -41,20 +39,6 @@ class HBNBCommand(cmd.Cmd):
             "Review"
             "User"
         }
-
-    class FileStorage:
-        __objects = {
-                "BaseModel"
-            "Place"
-            "State"
-            "City"
-            "Amenity"
-            "Review"
-            "User"
-            }
-
-        def all(self):
-            return self.__objects
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
