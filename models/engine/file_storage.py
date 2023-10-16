@@ -5,7 +5,6 @@ import os
 import json
 
 class FileStorage:
-
     """Class for storing and retrieving data
     Class Methods:
         all: Returns the object (dictionary object)
