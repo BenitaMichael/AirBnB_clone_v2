@@ -14,7 +14,7 @@ class Place(BaseModel):
         number_rooms:  (int)
         number_bathrooms:  (int)
         max_guest:  (int)
-        price_by_night: (int) 
+        price_by_night: (int)
         latitude:  (float)
         longitude:  (float)
         amenity_ids: (list)

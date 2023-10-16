@@ -11,8 +11,8 @@ class BaseModel:
     """Parent Class which all other classes will inherit from"""
 
     def __init__(self, *args, **kwargs):
-        """Initializes instance attributes like id: uuid, and dates when created
-        and updated
+        """Initializes instance attributes like id: uuid,
+        and dates when created and updated
 
         Args:
             - *args: list of arguments
@@ -62,4 +62,3 @@ class BaseModel:
         obj_dict["created_at"] = obj_dict["created_at"].isoformat()
         obj_dict["updated_at"] = obj_dict["updated_at"].isoformat()
         return obj_dict
-
