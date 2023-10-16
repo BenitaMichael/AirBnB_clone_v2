@@ -51,11 +51,14 @@ class FileStorage:
         return classes
 
     def reload(self):
-        """Reloads objects if exists and stored"""
-        if not os.path.isfile(FileStorage.__file_path):
-            return
-        with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
-            obj_dict = json.load(f)
-            obj_dict = {key: self.classes()[value["__class__"]](**value)
-                        for key, value in obj_dict.items()}
-            FileStorage.__objects = obj_dict
+         """Reloads objects if exists and stored"""
+        """Deserializes the JSON file to __objects"""
+        try:
+            with open(FileStorage.__file_path, 'r', encoding='utf-8') as file:
+                serialized = json.load(file)
+            for key, value in serialized.items():
+                class_name = value['__class__']
+                obj = eval(class_name)(**value)
+                FileStorage.__objects[key] = obj
+        except FileNotFoundError:
+            pass
