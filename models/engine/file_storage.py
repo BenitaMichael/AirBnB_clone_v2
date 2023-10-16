@@ -58,3 +58,4 @@ class FileStorage:
             obj_dict = {key: self.classes()[value["__class__"]](**value)
             for key, value in obj_dict.items()}
             FileStorage.__objects = obj_dict
+            FileStorage.reload()
