@@ -30,6 +30,11 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
 
+    def __init__(self):
+        super().__init__()
+        self.storage = FileStorage()
+        self.storage.reload()
+
     __classes = {
         "BaseModel"
         "Place"
