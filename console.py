@@ -25,35 +25,6 @@ class FileStorage:
             "User"
             }
 
-
-    def all(self):
-        """Return the dictionary __objects."""
-        return FileStorage.__objects
-
-    def new(self, obj):
-        """Set in __objects the obj with key <obj class name>.id"""
-        key = "{}.{}".format(obj.__class__.____name__, obj.id)
-        FileStorage.__objects[key] = obj
-
-    def save(self):
-        """Serializes __objects to the JSON file (path: __file_path)"""
-        serialized = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
-        with open(FileStorage.__file_path, 'w', encoding='utf-8') as file:
-            json.dump(serialized, file)
-
-    def reload(self):
-        """Deserializes the JSON file to __objects"""
-        try:
-            with open(FileStorage.__file_path, 'r', encoding='utf-8') as file:
-                serialized = json.load(file)
-                for key, value in serialized.items():
-                    class_name = value['__class__']
-                    obj = eval(class_name)(**value)
-                    FileStorage.__objects[key] = obj
-        except FileNotFoundError:
-            pass
-
-
 class HBNBCommand(cmd.Cmd):
     """The command prompt class - HBNBCommand"""
 
