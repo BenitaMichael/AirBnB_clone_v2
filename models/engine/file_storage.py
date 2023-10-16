@@ -17,7 +17,6 @@ class FileStorage:
         __objects (dict): A dictionary of instantiated objects
         class_dict (dict): A dictionary of all the classes
     """
-    FileStorage.reload()
     __file_path = "file.json"
     __objects = {}
 
