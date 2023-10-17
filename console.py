@@ -23,7 +23,7 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
 
-    __classes = {
+    classes = {
         "BaseModel"
         "Place"
         "State"
