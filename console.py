@@ -2,16 +2,9 @@
 """The command prompt class - HBNBCommand"""
 
 import cmd
-import sys
-import models
-from models.engine.file_storage import FileStorage
+import json
+from models import dataStorage
 from models.base_model import BaseModel
-from models.amenity import Amenity
-from models.city import City
-from models.place import Place
-from models.review import Review
-from models.state import State
-from models.user import User
 
 class FileStorage:
     __file_path = "file.json"
@@ -57,7 +50,7 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, arg):
         """Update an instance based on class name and id with a new attribute value"""
         args = arg.split()
-        objects = file_storage.all()
+        objects = dataStorage.all()
         if not args:
             print("** class name missing **")
         elif args[0] not in ["BaseModel"]:
@@ -80,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """Print string representation of all instances or based on class name"""
         args = arg.split()
-        objects = file_storage.all()
+        objects = dataStorage.all()
         if not args:
             print([str(objects[obj]) for obj in objects])
         elif args[0] not in ["BaseModel"]:
@@ -100,11 +93,11 @@ class HBNBCommand(cmd.Cmd):
         elif len(args) < 2:
             print("** instance id missing **")
         else:
-            objects = file_storage.all()
+            objects = dataStorage.all()
             key = "{}.{}".format(args[0], args[1])
             if key in objects:
                 del objects[key]
-                file_storage.save()
+                dataStorage.save()
             else:
                 print("** no instance found **")
 
@@ -118,7 +111,7 @@ class HBNBCommand(cmd.Cmd):
         elif len(args) < 2:
             print("** instance id missing **")
         else:
-            objects = file_storage.all()
+            objects = dataStorage.all()
             key = "{}.{}".format(args[0], args[1])
             if key in objects:
                 print(objects[key])
@@ -139,4 +132,3 @@ class HBNBCommand(cmd.Cmd):
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
-
