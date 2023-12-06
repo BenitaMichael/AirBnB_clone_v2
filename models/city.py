@@ -2,15 +2,19 @@
 """Module creates a User subclass"""
 
 from models.base_model import BaseModel
+from sqlalchemy import Column, String, ForeignKey
+from sqlalchemy.orm import relationship
+from models import storageDB
 
 
 class City(BaseModel):
-    """
-    Subclass for User city objects
-    Public class attributes:
-    state_id: (string)
-    name:(string)
-    """
-
-    state_id = ""
-    name = ""
+    """ The city class, contains state ID and name """
+    __tablename__ = 'cities'
+    if storageDB == 'db':
+        name = Column(String(128), nullable=False)
+        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
+        places = relationship('Place', backref='cities',
+                              cascade='all, delete, delete-orphan')
+    else:
+        name = ''
+        state_id = ''

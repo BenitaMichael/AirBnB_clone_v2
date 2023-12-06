@@ -6,8 +6,8 @@ import json
 import sys
 import re
 import os
-from datetime import datetime
 import uuid
+from datetime import datetime
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -16,7 +16,6 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-from models import dataStorage
 
 class FileStorage:
     __file_path = "file.json"
@@ -44,9 +43,24 @@ class HBNBCommand(cmd.Cmd):
         "Review"
         "User"
         }
+    
+    dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
+    types = {
+             'number_rooms': int, 'number_bathrooms': int,
+             'max_guest': int, 'price_by_night': int,
+             'latitude': float, 'longitude': float
+            }
+    def preloop(self):
+        if not sys.__stdin__.isatty():
+            print('(hbnb)')
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
+
+    def help_quit(self):
+        """ Prints the help documentation for quit  """
+        print("Exits the program with formatting\n")
+
         return True
 
     def do_EOF(self, arg):
@@ -58,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
         """Do nothing on an empty line"""
         pass
 
-   def do_create(self, args):
+    def do_create(self, args):
         """ Create an object of any class"""
         ignored_attrs = ('id', 'created_at', 'updated_at', '__class__')
         class_name = ''
@@ -156,7 +170,7 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: show <className> <objectId>\n")
 
     def do_destroy(self, args):
-        """ Destroys a specified object """
+        """Destroy a specified item"""
         new = args.partition(" ")
         c_name = new[0]
         c_id = new[2]
@@ -193,7 +207,7 @@ class HBNBCommand(cmd.Cmd):
         print_list = []
 
         if args:
-            args = args.split(' ')[0]  # remove possible trailing args
+            args = args.split(' ')[0]
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
@@ -312,5 +326,5 @@ class HBNBCommand(cmd.Cmd):
         print("Usage: update <className> <id> <attName> <attVal>\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     HBNBCommand().cmdloop()
