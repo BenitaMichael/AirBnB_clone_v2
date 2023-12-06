@@ -1,4 +1,4 @@
-# AIRBNB CLONE PROJECT
+# AIRBNB CLONE PROJECT (Version @)
 ## Project Description:
 This is the first section of the AirBnB clone project where we worked on the backend of the project with the help of the cmd module in python.
 
@@ -24,20 +24,7 @@ And as part of the implementation of the command line interpreter coupled with t
 
 ## Console.py
 ### How it works
-- The program starts by importing the cmd module, which provides a framework for building interactive command-line applications.
-- This class is where you define the behavior of the command-line console and its inherits from cmd.Cmd.
-- The "(hbnb)" appears as the command prompt is executed, indicating that the console is ready to accept user input.
-- To exit the console, the user can either type "quit" or use Ctrl+D (EOF). In both cases, the program returns True, which signals the console to exit.
-
-
-### How its can be used
-#### Interactive Mode:
-In interactive mode, the console will display a prompt (hbnb) indicating that the user can write and execute a command. It runs endlessly till the user exits the prompt.
-When a command is entered in the console, the console will attempt to execute the command through several means or will show an error message if the command didn't run successfully or if the command is not recpgnized. In this mode, the console can be exited using the **CTRL + D** combination,  **CTRL + C**, or the command **quit** or **EOF**.
-
-#### Non-Interactive Mode:
-In non-interactive mode, the console will need to be run with a command input piped into its execution so that the command is run as soon as the Shell starts. No prompt comes up, and the program exits on its own.
-
+(To be Updated soon)
 
 #### Example:
 
@@ -126,4 +113,4 @@ Unittest can be found in test/test_models directory, Handling test cases for:
 - Review
 - State
 - User
-- File storage (test/test_models/engine)
+- File storage (test/test_models/iengine)
