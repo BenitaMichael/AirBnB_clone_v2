@@ -26,16 +26,9 @@ class BaseModel:
     updated_at = Column(DATETIME,
                         nullable=False,
                         default=datetime.utcnow())
+
     def __init__(self, *args, **kwargs):
-        """Initializes instance attributes like id: uuid,
-        and dates when created and updated
-
-        Args:
-            - *args: list of arguments
-            - **kwargs: key-values pair arguments
-        """
-
-        date_format = '%Y-%m-%dT%H:%M:%S.%f'
+        """Instatntiates a new model"""
         if not kwargs:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
@@ -46,7 +39,7 @@ class BaseModel:
                     setattr(self, k, datetime.fromisoformat(kwargs[k]))
                 elif k != '__class__':
                     setattr(self, k, kwargs[k])
-            if storageDB == 'db':
+            if storage_type == 'db':
                 if not hasattr(kwargs, 'id'):
                     setattr(self, 'id', str(uuid.uuid4()))
                 if not hasattr(kwargs, 'created_at'):
@@ -55,16 +48,11 @@ class BaseModel:
                     setattr(self, 'updated_at', datetime.now())
 
     def __str__(self):
-        """Returns string representation of instance, arguments, date and id"""
-
-        return "[{}] ({}) {}".\
-            format(type(self).__name__, self.id, self.__dict__)
+        """Returns a string representation of the instance"""
+        return '[{}] ({}) {}'.format(
+            self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
-        """
-        Method to update the date of the public instance attribute
-        updated_at
-        """
         """Updates updated_at with current time when instance is changed"""
         from models import storage
         self.updated_at = datetime.now()
@@ -72,17 +60,16 @@ class BaseModel:
         storage.save()
 
     def to_dict(self):
-        """
-        Returns a dictionary containing all keys/values pairs of __dict_
-        and date in string format
-        """
+        """Convert instance into dict format"""
+        dct = self.__dict__.copy()
+        dct['__class__'] = self.__class__.__name__
+        for k in dct:
+            if type(dct[k]) is datetime:
+                dct[k] = dct[k].isoformat()
+        if '_sa_instance_state' in dct.keys():
+            del(dct['_sa_instance_state'])
+        return dct
 
-        obj_dict = self.__dict__.copy()
-        obj_dict["__class__"] = type(self).__name__
-        obj_dict["created_at"] = obj_dict["created_at"].isoformat()
-        obj_dict["updated_at"] = obj_dict["updated_at"].isoformat()
-        return obj_dict
-    
     def delete(self):
         '''deletes the current instance from the storage'''
         from models import storage
