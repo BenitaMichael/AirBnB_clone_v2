@@ -5,12 +5,14 @@ import uuid
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DATETIME
-from models import storageDB
+from models import storage_type
+
+Base = declarative_base()
 
 
 class BaseModel:
-    """Parent Class which all other classes will inherit from"""
-    """
+    """ Parent class for all hbnb models
+
     Attributes:
         id (sqlalchemy String): The BaseModel id.
         created_at (sqlalchemy DateTime): The datetime at creation.

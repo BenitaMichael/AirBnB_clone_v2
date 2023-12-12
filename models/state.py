@@ -9,7 +9,7 @@ from sqlalchemy import String
 from sqlalchemy.orm import relationship
 
 
-class Review(BaseModel):
+class State(BaseModel, Base):
     __tablename__ = 'states'
     name = Column(
         String(128), nullable=False
