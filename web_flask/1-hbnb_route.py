@@ -4,7 +4,7 @@ from flask import Flask
 
 
 app = Flask(__name__)
-'''The Flask application instance.'''
+'''The Flask application instance'''
 app.url_map.strict_slashes = False
 
 
@@ -16,7 +16,7 @@ def index():
 
 @app.route('/hbnb')
 def hbnb():
-    '''The hbnb page.'''
+    '''The hbnb page'''
     return 'HBNB'
 
 
