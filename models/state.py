@@ -2,14 +2,14 @@
 """Module that creates a Review subclass"""
 
 import os
-from models.city import City
-from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
-from sqlalchemy import String
 from sqlalchemy.orm import relationship
+from models.base_model import BaseModel, Base
+from models.city import City
 
 
 class State(BaseModel, Base):
+    """ State class """
     __tablename__ = 'states'
     name = Column(
         String(128), nullable=False
@@ -25,8 +25,8 @@ class State(BaseModel, Base):
         def cities(self):
             """Returns the cities in this State"""
             from models import storage
-            city_list = []
+            cities_in_state = []
             for value in storage.all(City).values():
                 if value.state_id == self.id:
-                    city_list.append(value)
-            return city_list
+                    cities_in_state.append(value)
+            return cities_in_state
